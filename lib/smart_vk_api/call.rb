@@ -1,7 +1,6 @@
 module SmartVkApi
   module Call
-    def call(method_name, *options)
-      params = options.last if options && options.last.is_a?(Hash)
+    def call(method_name, params = {})
       http(method_name, params) do |response|
         raise SmartVkApi::MethodCallError, response.body unless response.is_a?(Net::HTTPSuccess)
         json = response.body
