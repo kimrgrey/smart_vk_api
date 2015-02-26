@@ -1,5 +1,6 @@
 # SmartVkApi
 
+[![Gem Version](https://badge.fury.io/rb/smart_vk_api.svg)](http://badge.fury.io/rb/smart_vk_api)
 [![Build Status](https://travis-ci.org/kimrgrey/smart_vk_api.svg)](https://travis-ci.org/kimrgrey/smart_vk_api)
 [![Code Climate](https://codeclimate.com/github/kimrgrey/smart_vk_api/badges/gpa.svg)](https://codeclimate.com/github/kimrgrey/smart_vk_api)
 
