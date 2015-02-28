@@ -39,4 +39,12 @@
     vk.access_token # => 36fb063aa7f0ad997b5f96e91fd362857b
   ```
 
+* Добавлена возможность прямого вызова API через метод модуля:
+  
+  Пример:
+
+  ```ruby
+    SmartVkApi.call('users.get', :user_ids => 'kimrgrey') # [{:uid=>3710412, :first_name=>"Сергей", :last_name=>"Цветков", :hidden=>1}]
+  ```
+
 Чтобы посомотреть предыдущие изменения, пожалуйста, откройте соответствующий релиз - [v1.0.0](https://github.com/kimrgrey/smart_vk_api/tree/v1.0.0)

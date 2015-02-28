@@ -46,4 +46,12 @@ module SmartVkApi
     self.configuration ||= SmartVkApi::Configuration.new
     yield(configuration)
   end
+
+  def self.vk
+    SmartVkApi::VK.new
+  end
+
+  def self.call(method_name, params = {})
+    vk.call(method_name, params)
+  end
 end
