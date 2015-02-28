@@ -39,6 +39,58 @@ $ bundle install
 $ gem install smart_vk_api
 ```
 
+## Прямое использование API
+
+В простейшем случае можно вызвать произвольный метод VK API и передать ему параметры следующим образом:
+
+```ruby
+SmartVkApi.call('users.get', :user_ids => 'kimrgrey') # [{:uid=>3710412, ...}]
+```
+
+Для вызова нескольких методов разумно создать враппер один раз и использовать его повторно:
+
+```ruby
+vk = SmartVkApi.vk
+vk.call('users.get', :user_ids => 'kimrgrey') # [{:uid=>3710412, ...}]
+vk.call('photos.get', :owner_id => '3710412', :album_id => 'wall')
+```
+
+По умолчанию, `access_token` не передается, так что для вызова доступны только публичные методы. При попытке вызвать метод, требующий наличие токена, возникнет исключение `SmartVkApi::MethodCallError`. Например:
+
+```ruby
+SmartVkApi.call('wall.get', :owner_id => '3710412') # SmartVkApi::MethodCallError: {"error":{..., "error_msg":"Access denied: user hid his wall from accessing from outside"}}
+```
+
+Чтобы вызвать приватные методы, можно задать глобальный конфиг, токен из которого будет использоваться по умолчанию, если он задан:
+
+```ruby
+SmartVkApi.configure do |config|
+  config.access_token = ACCESS_TOKEN
+end
+```
+
+Если при этом передать другой `access_token` в качестве параметра для метода `call`, ему будет отдано предпочтение:
+
+```ruby
+SmartVkApi.call('users.get', :user_ids => 'kimrgrey', :access_token => ANOTHER_ACCESS_TOKEN)
+```
+
+## Проксирующий объект
+
+Вместо прямых обращений к API через передачу имени метода в качестве параметра для `call` можно использовать более удобный вариант, позволяющий вызывать методы VK API как собственные методы враппера. Пример:
+
+```ruby
+  vk = SmartVkApi.vk
+  vk.users.get(:user_ids => 'kimrgrey')
+```
+
+Токен доступа, как и для прямых вызовов, можно задать в конфиге или передать в качестве параметра метода.
+
+```ruby
+  vk = SmartVkApi.vk
+  vk.users.get(:user_ids => 'kimrgrey', :access_token => ACCESS_TOKEN)
+```
+
 ## Как помочь в разработке?
 
 Все как обычно:
