@@ -8,21 +8,47 @@ describe SmartVkApi::VK do
   let (:vk) { SmartVkApi::VK.new }
   let (:default_response_body) { {:response => {:test => 'yes'} } }
 
-  describe '#method_url' do
-    it 'should raise ArgumentError when method name is nil' do
-      expect{ vk.method_url(nil) }.to raise_error(ArgumentError, 'Method name could not be empty')
-    end
-    
-    it 'should raise ArgumentError when method name is empty string' do
-      expect{ vk.method_url('') }.to raise_error(ArgumentError, 'Method name could not be empty')
-    end
-    
-    it 'should take care of method name' do
-      expect(vk.method_url('users.get')).to eq('https://api.vk.com/method/users.get')
+  before do
+    SmartVkApi.reset_configuration
+  end
+
+  describe '#method_url' do    
+    context 'without access token' do
+      it 'should raise ArgumentError when method name is nil' do
+        expect{ vk.method_url(nil) }.to raise_error(ArgumentError, 'Method name could not be empty')
+      end
+      
+      it 'should raise ArgumentError when method name is empty string' do
+        expect{ vk.method_url('') }.to raise_error(ArgumentError, 'Method name could not be empty')
+      end
+      
+      it 'should take care of method name' do
+        expect(vk.method_url('users.get')).to eq('https://api.vk.com/method/users.get')
+      end
+
+      it 'should take care of parameters' do
+        expect(vk.method_url('users.get', {:aaa => :bbb, :user_ids => :kimrgrey})).to eq('https://api.vk.com/method/users.get?aaa=bbb&user_ids=kimrgrey')
+      end
     end
 
-    it 'should take care of parameters' do
-      expect(vk.method_url('users.get', {:aaa => :bbb, :user_ids => :kimrgrey})).to eq('https://api.vk.com/method/users.get?aaa=bbb&user_ids=kimrgrey')
+    context 'with access token' do
+      it 'should add access token when no parameters given' do
+        expect(vk.method_url('users.get', :access_token => '7a6fa4dff77a228eeda56603')).to eq('https://api.vk.com/method/users.get?access_token=7a6fa4dff77a228eeda56603')
+      end
+
+      it 'should use access token from configuration by default' do
+        SmartVkApi.configure do |conf|
+          conf.access_token = '7a6fa4dff77a228eeda56603'
+        end
+        expect(vk.method_url('users.get')).to eq('https://api.vk.com/method/users.get?access_token=7a6fa4dff77a228eeda56603')
+      end
+
+      it 'should use specified access token if it was given' do
+        SmartVkApi.configure do |conf|
+          conf.access_token = '7a6fa4dff77a228eeda56603'
+        end
+        expect(vk.method_url('users.get', :access_token => '7a6fa4dff77a228eeda56604')).to eq('https://api.vk.com/method/users.get?access_token=7a6fa4dff77a228eeda56604')
+      end
     end
   end
 

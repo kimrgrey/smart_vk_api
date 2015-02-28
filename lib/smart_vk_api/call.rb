@@ -23,6 +23,10 @@ module SmartVkApi
       if method_name.nil? || method_name.empty?
         raise ArgumentError, 'Method name could not be empty'
       end
+      if access_token && (params.nil? || !params.key?(:access_token))
+        params ||= {}
+        params[:access_token] = access_token
+      end
       url = SmartVkApi::Constants::METHOD_CALL_URL + "/#{method_name}"
       url += "?#{URI.encode_www_form(params)}" if params && params.any?
       url
