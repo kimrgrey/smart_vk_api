@@ -80,15 +80,22 @@ SmartVkApi.call('users.get', :user_ids => 'kimrgrey', :access_token => ANOTHER_A
 Вместо прямых обращений к API через передачу имени метода в качестве параметра для `call` можно использовать более удобный вариант, позволяющий вызывать методы VK API как собственные методы враппера. Пример:
 
 ```ruby
-  vk = SmartVkApi.vk
-  vk.users.get(:user_ids => 'kimrgrey')
+vk = SmartVkApi.vk
+vk.users.get(:user_ids => 'kimrgrey')
 ```
 
 Токен доступа, как и для прямых вызовов, можно задать в конфиге или передать в качестве параметра метода.
 
 ```ruby
-  vk = SmartVkApi.vk
-  vk.users.get(:user_ids => 'kimrgrey', :access_token => ACCESS_TOKEN)
+vk = SmartVkApi.vk
+vk.users.get(:user_ids => 'kimrgrey', :access_token => ACCESS_TOKEN)
+```
+
+В VK API принят стиль camelCase, в Ruby же используются подчеркивания. Например, вызвать метод `users.isAppUser` можно следующим образом:
+
+```ruby
+vk = SmartVkApi.vk
+vk.is_app_user(:user_id => '3710412')  
 ```
 
 ## Как помочь в разработке?
