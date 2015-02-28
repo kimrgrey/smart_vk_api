@@ -1,3 +1,10 @@
+## Версия 1.1.1
+
+* В `Proxy` обработка методов API в camelCase нотации. Например, вызвать `users.isAppUser` можно так:
+  
+  ```ruby
+    SmartVkApi.vk.users.is_app_user(:user_id => 'kimrgrey')
+  ```
 
 ## Версия 1.1.0
 

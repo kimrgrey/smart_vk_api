@@ -26,6 +26,12 @@ describe SmartVkApi::VK do
       vk.users.get({:user_ids => "kimrgrey"})
       expect(WebMock).to have_requested(:get, "https://api.vk.com/method/users.get?user_ids=kimrgrey")
     end
+
+    it 'should convert method name using CamelCase' do
+      stub_request(:get, "https://api.vk.com/method/users.isAppUser?user_id=kimrgrey").to_return(:status => 200, :body => default_response_body.to_json)
+      vk.users.is_app_user(:user_id => 'kimrgrey')
+      expect(WebMock).to have_requested(:get, "https://api.vk.com/method/users.isAppUser?user_id=kimrgrey")
+    end
   end
 
   describe 'configuration' do

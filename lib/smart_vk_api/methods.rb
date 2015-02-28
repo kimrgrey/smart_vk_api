@@ -12,12 +12,19 @@ module SmartVkApi
       attr_accessor :vk
       attr_accessor :scope
 
+      def self.camelcase(method_name)
+        result = method_name.to_s.split('_').map(&:capitalize).join
+        result[0] = result[0].downcase
+        result
+      end
+
       def initialize(vk, scope)
         self.vk = vk
         self.scope = scope
       end
 
       def method_missing(method_name, *arguments, &block)
+        method_name = Proxy.camelcase(method_name)
         vk.call("#{scope}.#{method_name}", arguments.first)
       end
 
