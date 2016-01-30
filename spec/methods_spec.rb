@@ -15,6 +15,14 @@ describe SmartVkApi::VK do
       expect(vk.users).to respond_to(:get, :search, :report)
     end
 
+    it "should pre-define implementation for known scopes instead of using method_missing" do
+      expect(vk.methods).to include(:users)
+    end
+
+    it "should pre-define implementation for known methods instead of using method_missing" do
+      expect(vk.users.methods).to include(:get)
+    end
+
     it 'should perform API request on method call' do
       stub_request(:get, "https://api.vk.com/method/users.get").to_return(:status => 200, :body => default_response_body.to_json)
       vk.users.get
