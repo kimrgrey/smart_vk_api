@@ -23,6 +23,12 @@ describe SmartVkApi::VK do
       expect(vk.users.methods).to include(:get)
     end
 
+    it "should be ready to execute method in unknown scope" do
+      stub_request(:get, "https://api.vk.com/method/fake.call").to_return(:status => 200, :body => default_response_body.to_json)
+      vk.fake.call
+      expect(WebMock).to have_requested(:get, "https://api.vk.com/method/fake.call")
+    end
+
     it 'should perform API request on method call' do
       stub_request(:get, "https://api.vk.com/method/users.get").to_return(:status => 200, :body => default_response_body.to_json)
       vk.users.get
