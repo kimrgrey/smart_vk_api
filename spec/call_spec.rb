@@ -12,16 +12,16 @@ describe SmartVkApi::VK do
     SmartVkApi.reset_configuration
   end
 
-  describe '#method_url' do    
+  describe '#method_url' do
     context 'without access token' do
       it 'should raise ArgumentError when method name is nil' do
         expect{ vk.method_url(nil) }.to raise_error(ArgumentError, 'Method name could not be empty')
       end
-      
+
       it 'should raise ArgumentError when method name is empty string' do
         expect{ vk.method_url('') }.to raise_error(ArgumentError, 'Method name could not be empty')
       end
-      
+
       it 'should take care of method name' do
         expect(vk.method_url('users.get')).to eq('https://api.vk.com/method/users.get')
       end
@@ -56,7 +56,7 @@ describe SmartVkApi::VK do
     it 'should return http connection if block was not given' do
       expect( vk.http('users.get')).to be_a(Net::HTTP)
     end
-    
+
     it 'should return result of block call if block was given' do
       stub_request(:get, "https://api.vk.com/method/users.get").to_return(:status => 200, :body => default_response_body.to_json)
       expect( vk.http('users.get') { |_| 'result of block' }).to eq('result of block')

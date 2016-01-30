@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe SmartVkApi::VK do
   it { is_expected.to respond_to(:users, :wall, :photos, :friends, :audio, :groups) }
-  
+
   before do
     SmartVkApi.reset_configuration
   end
-    
+
   describe 'methods proxy' do
     let (:vk) { SmartVkApi::VK.new }
     let (:default_response_body) { {:response => {:test => 'yes'} } }
@@ -44,7 +44,7 @@ describe SmartVkApi::VK do
         conf.access_token = '7a6fa4dff77a228eeda220349'
       end
     end
-    
+
     it 'should use global configuration by default' do
       vk = SmartVkApi::VK.new
       expect(vk.configuration).to eq(SmartVkApi.configuration)
