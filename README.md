@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/kimrgrey/smart_vk_api.svg)](https://travis-ci.org/kimrgrey/smart_vk_api)
 [![Code Climate](https://codeclimate.com/github/kimrgrey/smart_vk_api/badges/gpa.svg)](https://codeclimate.com/github/kimrgrey/smart_vk_api)
 
-A lightweight and flexible library that wraps Vkontakte API and allow you to use it in very easy and comfortable way. And, as a bonus, mo additional dependencies :wink:
+A lightweight and flexible library that wraps [Vkontakte API](https://vk.com/dev) and allow you to use it in very easy and comfortable way. And, as a bonus, no additional dependencies :wink:
 
 ## Just another one?
 
