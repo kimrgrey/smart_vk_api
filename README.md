@@ -21,7 +21,7 @@ So, that way I have decided to follow some very simple rules in delopment of thi
 
 ## How to install?
 
-Just add those line to the Gemfile of your application:
+Just add this line to the Gemfile of your application:
 
 ```ruby
 gem 'smart_vk_api'
@@ -55,7 +55,7 @@ vk.call('users.get', :user_ids => 'kimrgrey') # [{:uid=>3710412, ...}]
 vk.call('photos.get', :owner_id => '3710412', :album_id => 'wall')
 ```
 
-By default you are able to not specify `access_token`.  In this case only public methods will be available for call and `SmartVkApi::MethodCallError` will be raise when you'll try to call some private method. For example:
+By default you are able to not specify `access_token`.  In this case only public methods will be available for call and `SmartVkApi::MethodCallError` will be raised when you'll try to call some private method. For example:
 
 ```ruby
 SmartVkApi.call('wall.get', :owner_id => '3710412') # SmartVkApi::MethodCallError: {"error":{..., "error_msg":"Access denied: user hid his wall from accessing from outside"}}
@@ -98,7 +98,7 @@ vk = SmartVkApi.vk
 vk.is_app_user(:user_id => '3710412')  
 ```
 
-## How to take help the project?
+## How to help the project?
 
 As usual:
 
