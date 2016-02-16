@@ -6,48 +6,48 @@
 
 A lightweight and flexible library that wraps Vkontakte API and allow you to use it in very easy and comfortable way. And, as a bonus, mo additional dependencies :wink:
 
-## Что еще один?
+## Just another one?
 
-Да, в некотором роде. Но не совсем. 
+Yep. But there are some details. 
 
-1. Почти все гемы для работы с VK API, которые можно [найти на rubygems.org](https://rubygems.org/search?utf8=%E2%9C%93&query=vkontakte), давно не обновлялись. 
-2. Один из самых [приятно реализованных](https://github.com/7even/vkontakte_api) и более или менее актуальных тянет за собой [количество зависимостей](https://github.com/7even/vkontakte_api/blob/master/vkontakte_api.gemspec#L21-L39), которое ставит в тупик.
+1. Almost all of gems on [rubygems.org](https://rubygems.org/search?utf8=%E2%9C%93&query=vkontakte) has not been updated since ancient times. 
+2. One of [the best variants](https://github.com/7even/vkontakte_api) has [so many dependencies](https://github.com/7even/vkontakte_api/blob/master/vkontakte_api.gemspec#L21-L39) without any clear reason for it.
 
-Поэтому при разработке этого гема используются три простых принципа:
+So, that way I have decided to follow some very simple rules in delopment of this gem:
 
-1. Он должен быть максимально удобным в использовании;
-2. Он должен быть настолько "тонким" по отношению к API, насколько это вообще возможно сделать, не жертвуя первым пунктом;
-3. Он должен тянуть за собой только **необходимый минимум** зависимостей, в идеале - **ни одной**;
+1. It should be very easy to use;
+2. It should be as thin as it possible, but good enough to not break the first rule;
+3. It should has only reasonable dependencies, but in the best case it shoudld has no dependencies at all;
 
-## Как установить?
+## How to install?
 
-Добавьте в Gemfile вашего приложения:
+Just add those line to the Gemfile of your application:
 
 ```ruby
 gem 'smart_vk_api'
 ```
 
-После чего запустите:
+And run:
 
 ```
 $ bundle install
 ```
 
-Или просто установите гем вручную:
+Or install gem directly from rubygems.org:
 
 ```
 $ gem install smart_vk_api
 ```
 
-## Прямое использование API
+## How to use API directly?
 
-В простейшем случае можно вызвать произвольный метод VK API и передать ему параметры следующим образом:
+In simplest case you can call any method of the VK API and pass any parameters like this:
 
 ```ruby
 SmartVkApi.call('users.get', :user_ids => 'kimrgrey') # [{:uid=>3710412, ...}]
 ```
 
-Для вызова нескольких методов разумно создать враппер один раз и использовать его повторно:
+But if you want to perform multiple calls it's good idea to create a wrapper object and use it:
 
 ```ruby
 vk = SmartVkApi.vk
@@ -55,13 +55,13 @@ vk.call('users.get', :user_ids => 'kimrgrey') # [{:uid=>3710412, ...}]
 vk.call('photos.get', :owner_id => '3710412', :album_id => 'wall')
 ```
 
-По умолчанию, `access_token` не передается, так что для вызова доступны только публичные методы. При попытке вызвать метод, требующий наличие токена, возникнет исключение `SmartVkApi::MethodCallError`. Например:
+By default you are able to not specify `access_token`.  In this case only public methods will be available for call and `SmartVkApi::MethodCallError` will be raise when you'll try to call some private method. For example:
 
 ```ruby
 SmartVkApi.call('wall.get', :owner_id => '3710412') # SmartVkApi::MethodCallError: {"error":{..., "error_msg":"Access denied: user hid his wall from accessing from outside"}}
 ```
 
-Чтобы вызвать приватные методы, можно задать глобальный конфиг, токен из которого будет использоваться по умолчанию, если он задан:
+If you want to call private methods you can specify `access_config` in global configuration:
 
 ```ruby
 SmartVkApi.configure do |config|
@@ -69,41 +69,41 @@ SmartVkApi.configure do |config|
 end
 ```
 
-Если при этом передать другой `access_token` в качестве параметра для метода `call`, ему будет отдано предпочтение:
+And if you pass another one `access_token` as a parameter for `call` it wil be used instead of globally configured:
 
 ```ruby
 SmartVkApi.call('users.get', :user_ids => 'kimrgrey', :access_token => ANOTHER_ACCESS_TOKEN)
 ```
 
-## Проксирующий объект
+## Proxy object
 
-Вместо прямых обращений к API через передачу имени метода в качестве параметра для `call` можно использовать более удобный вариант, позволяющий вызывать методы VK API как собственные методы враппера. Пример:
+It's very easy to make a mistake if you call methods by it's string names. That's why this gem provides a proxy object. You can use this object to call any methods of API as if it is a plain old ruby method:
 
 ```ruby
 vk = SmartVkApi.vk
 vk.users.get(:user_ids => 'kimrgrey')
 ```
 
-Токен доступа, как и для прямых вызовов, можно задать в конфиге или передать в качестве параметра метода.
+And again you can configure `access_token` globally or use it as a parameter:
 
 ```ruby
 vk = SmartVkApi.vk
 vk.users.get(:user_ids => 'kimrgrey', :access_token => ACCESS_TOKEN)
 ```
 
-В VK API принят стиль camelCase, в Ruby же используются подчеркивания. Например, вызвать метод `users.isAppUser` можно следующим образом:
+In VK API "camelCase" style is used for mehtod's naming. But in ruby we can use "underscore" notation instead. So, for example, method `users.isAppUser` of API could be called using proxy object like this:
 
 ```ruby
 vk = SmartVkApi.vk
 vk.is_app_user(:user_id => '3710412')  
 ```
 
-## Как помочь в разработке?
+## How to take help the project?
 
-Все как обычно:
+As usual:
 
-1. Сделайте форк (https://github.com/kimrgrey/smart_vk_api/fork)
-2. Добавьте ветку (`git checkout -b my-new-feature`)
-3. Сделайте коммит (`git commit -am 'Add some feature'`)
-4. Сделайте пуш (`git push origin my-new-feature`)
-5. Пришлите pull request
+1. Create a fork (https://github.com/kimrgrey/smart_vk_api/fork)
+2. Add a branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push it (`git push origin my-new-feature`)
+5. Make a pull request
