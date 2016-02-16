@@ -10,7 +10,7 @@ A lightweight and flexible library that wraps Vkontakte API and allow you to use
 
 Yep. But there are some details. 
 
-1. Almost all of gems on [rubygems.org](https://rubygems.org/search?utf8=%E2%9C%93&query=vkontakte) has not been updated since ancient times. 
+1. Almost all of gems for VK API on [rubygems.org](https://rubygems.org/search?utf8=%E2%9C%93&query=vkontakte) has not been updated since ancient times. 
 2. One of [the best variants](https://github.com/7even/vkontakte_api) has [so many dependencies](https://github.com/7even/vkontakte_api/blob/master/vkontakte_api.gemspec#L21-L39) without any clear reason for it.
 
 So, that way I have decided to follow some very simple rules in delopment of this gem:
